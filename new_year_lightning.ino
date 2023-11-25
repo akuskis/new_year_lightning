@@ -24,7 +24,7 @@ int8_t const ROWS = 10;
 
 auto BLUE_COLOR = CRGB(0, 0, 255);
 auto GREEN_COLOR = CRGB(0, 255, 0);
-auto RED_COLOR = CRGB(0, 255, 0);
+auto RED_COLOR = CRGB(255, 0, 0);
 auto NONE_COLOR = CRGB(0, 0, 0);
 } // namespace
 
@@ -66,7 +66,7 @@ void show(SnakeGame::GameObjects const* const grid)
         int right = (i / COLS + 1) * COLS;
         int index = right - i - 1;
 
-        int target = left + index;
+        int target = (i / COLS % 2) ? i : left + index;
 
         switch (grid[i])
         {
@@ -83,8 +83,6 @@ void show(SnakeGame::GameObjects const* const grid)
             leds[target] = RED_COLOR;
             break;
         }
-
-        leds[target] = grid[i];
     }
 }
 
