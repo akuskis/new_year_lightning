@@ -23,7 +23,7 @@ namespace
 int8_t const COLS = 10;
 int8_t const ROWS = 10;
 int const SNOWFALL_ITERATIONS = 240;
-int const RANDOM_LIGHTS_ITERATIONS = 1200;
+int const RANDOM_LIGHTS_ITERATIONS = 2400;
 
 auto BLUE_COLOR = CRGB(0, 0, 255);
 auto GREEN_COLOR = CRGB(0, 255, 0);
@@ -122,14 +122,35 @@ void run_random_lights()
     {
         leds[random(100) - 1] = CRGB(random(256) - 1, random(256) - 1, random(256) - 1);
         FastLED.show();
-        delay(100);
+        delay(50);
     }
+}
+
+void run_fire()
+{
+    uint8_t x = COLS;
+    uint8_t k1 = random8(x * 2);
+    uint8_t k2 = random8(x * 2) + k1;
+    uint8_t k3 = NUM_LEDS - 1;
+
+    fill_gradient_RGB(leds, 0, CRGB::White, k1, CRGB::Yellow);
+    fill_gradient_RGB(leds, k1, CRGB::Yellow, k2, CRGB::Red);
+    fill_gradient_RGB(leds, k2, CRGB::Red, k3, CRGB::Black);
+
+    for (uint8_t y = 0; y < x; ++y)
+        leds[random16(k2, NUM_LEDS - 1)] = CRGB::Red;
+
+    FastLED.show();
+    delay(500);
 }
 
 void loop()
 {
     while (true)
     {
+        while (true)
+            run_fire();
+
         run_random_lights();
 
         run_snowfall();
