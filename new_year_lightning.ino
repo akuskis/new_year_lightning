@@ -121,31 +121,9 @@ void run_random_lights()
 {
     for (size_t count = 0; count != RANDOM_LIGHTS_ITERATIONS; ++count)
     {
-        leds[random(100) - 1] = CRGB(random(256) - 1, random(256) - 1, random(256) - 1);
+        leds[random(NUM_LEDS)] = CRGB(random(256), random(256), random(256));
         FastLED.show();
         delay(50);
-    }
-}
-
-void run_fire()
-{
-    uint8_t x = COLS;
-
-    for (int i = 0; i < FIRE_ITERATIONS; ++i)
-    {
-        uint8_t k1 = random8(x * 1.5);
-        uint8_t k2 = random8(x * 1.5) + k1;
-        uint8_t k3 = NUM_LEDS - 1;
-
-        fill_gradient_RGB(leds, NUM_LEDS - k1 - 1, CRGB::Yellow, NUM_LEDS - 1, CRGB::White);
-        fill_gradient_RGB(leds, NUM_LEDS - k2 - 1, CRGB::Red, NUM_LEDS - k1 - 1, CRGB::Yellow);
-        fill_gradient_RGB(leds, 0, CRGB::Black, NUM_LEDS - k2 - 1, CRGB::Red);
-
-        for (uint8_t y = 0; y < x; ++y)
-            leds[random16(0, NUM_LEDS - k2 - 1)] = CRGB::Red;
-
-        FastLED.show();
-        delay(500);
     }
 }
 
@@ -153,8 +131,6 @@ void loop()
 {
     while (true)
     {
-        run_fire();
-
         run_random_lights();
 
         run_snowfall();
