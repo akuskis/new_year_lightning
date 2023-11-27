@@ -33,13 +33,6 @@ auto WHITE_COLOR = CRGB(255, 255, 255);
 auto NONE_COLOR = CRGB(0, 0, 0);
 } // namespace
 
-
-void clear()
-{
-    for (int i = 0; i < NUM_LEDS; ++i)
-        leds[i] = NONE_COLOR;
-}
-
 int convert_to_local(int i)
 {
     int left = (i / COLS * COLS);
@@ -80,8 +73,7 @@ void play_snake()
 
     while (!snake_game.isOver())
     {
-        for (size_t i = 0; i < NUM_LEDS; ++i)
-            grid[i] = SnakeGame::EMPTY;
+        FastLED.clear();
 
         snake_game.draw(grid);
         show(grid);
